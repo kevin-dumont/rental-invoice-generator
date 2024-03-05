@@ -1,7 +1,7 @@
-import { InvoiceAdapter } from '../adapters/invoice-adapter';
-import { Client } from '../models/Client';
-import { Stay } from '../models/Stay';
-import { IGenerateInvoiceFromTotalPriceUseCase } from './interfaces/generate-invoice-from-total-price';
+import { InvoiceAdapter } from "../adapters/invoice-adapter";
+import { Client } from "../models/Client";
+import { Stay } from "../models/Stay";
+import { IGenerateInvoiceFromTotalPriceUseCase } from "./interfaces/generate-invoice-from-total-price";
 
 export class GenerateInvoiceFromTotalPriceUseCase
   implements IGenerateInvoiceFromTotalPriceUseCase

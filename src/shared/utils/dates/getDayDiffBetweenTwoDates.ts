@@ -1,5 +1,5 @@
-import { differenceInDays } from 'date-fns';
+import { differenceInDays } from "date-fns";
 
 export function getDayDiffBetweenTwoDates(dateA: Date, dateB: Date) {
-  return differenceInDays(dateA, dateB);
+  return differenceInDays(dateA, dateB) + 1;
 }
