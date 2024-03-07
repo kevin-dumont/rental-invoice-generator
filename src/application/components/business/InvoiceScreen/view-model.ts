@@ -7,6 +7,7 @@ import { round } from "shared/utils/numbers/round";
 import { formatPrice } from "shared/utils/numbers/formatPrice";
 import { InvoiceLineItem } from "domain/invoice/entities/InvoiceLineItem";
 import { dateFieldFormat } from "shared/utils/dates/dateFieldFormat";
+import { Client } from "domain/invoice/entities/Client";
 
 const DEFAULT_EXAMPLE_ADDRESS = `10 rue des abricotiers
 60800 Crépy-en-valois`;
@@ -94,6 +95,11 @@ export class InvoiceScreenViewModel {
 
   onNightPriceChange = (price: number) => {
     this.#changeLineItem("nightPrice", price);
+  };
+
+  onClientChange = (client: Client) => {
+    this.invoice.client = client;
+    this.#compute(this.invoice);
   };
 
   onCleaningFeesChange = (price: number) => {
