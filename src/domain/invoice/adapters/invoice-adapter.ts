@@ -1,12 +1,5 @@
-import { Client } from '../models/Client';
-import { Invoice } from '../models/Invoice';
-import { Stay } from '../models/Stay';
+import { Invoice } from "../entities/Invoice";
 
 export interface InvoiceAdapter {
-  generateStayFromPrice(
-    stay: Stay,
-    client: Client,
-    totalWantedPrice: number,
-    cleaningFees: number
-  ): Promise<Invoice>;
+  computePrices(invoice: Invoice): Promise<Invoice>;
 }

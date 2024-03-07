@@ -1,3 +1,5 @@
 export const formatPrice = (price: number, currency = "€") => {
-  return `${`${price}`.split(".").join(",")} ${currency}`;
+  const formattedPrice = price.toFixed(2).replace(".", ",");
+
+  return `${formattedPrice} ${currency}`;
 };

@@ -1,8 +1,6 @@
 import { InvoiceAdapter } from "domain/invoice/adapters/invoice-adapter";
-import { Client } from "domain/invoice/models/Client";
-import { Invoice } from "domain/invoice/models/Invoice";
-import { InvoiceLineItem } from "domain/invoice/models/InvoiceLineItem";
-import { Stay } from "domain/invoice/models/Stay";
+import { Invoice } from "domain/invoice/entities/Invoice";
+import { InvoiceLineItem } from "domain/invoice/entities/InvoiceLineItem";
 import { getDayDiffBetweenTwoDates } from "shared/utils/dates/getDayDiffBetweenTwoDates";
 import { round } from "shared/utils/numbers/round";
 
@@ -11,50 +9,58 @@ const GRAND_PARIS_COEFF = 0.15;
 const ADDITIONAL_TAXES_COEFF = 2;
 
 export class InvoiceInMemoryAdapter implements InvoiceAdapter {
-  async generateStayFromPrice(
-    stay: Stay,
-    client: Client,
-    totalPrice: number,
-    cleaningFees: number
-  ) {
+  async computePrices({ stay, client, lineItems, ...rest }: Invoice) {
     const { startDate, endDate } = stay;
 
     const nbNights = getDayDiffBetweenTwoDates(endDate, startDate) || 0;
 
-    const nightPrice = this.calculateNightlyPrice(
+    const nightPrice = lineItems.find(
+      (item) => item.name === "nightPrice"
+    )?.unitPrice;
+
+    const cleaningFees = lineItems.find(
+      (item) => item.name === "cleaningFees"
+    )?.unitPrice;
+
+    const computedNightPrice =
+      ((cleaningFees ?? 0) + (nightPrice ?? 0) * nbNights) / nbNights;
+
+    const taxes = this.calculateTaxes(
       stay.nbAdults,
       nbNights,
-      totalPrice,
-      cleaningFees
+      computedNightPrice
     );
 
-    const taxes = this.calculateTaxes(stay.nbAdults, nbNights, nightPrice);
-
-    const lineItems: InvoiceLineItem[] = [
+    const nextLineItems: InvoiceLineItem[] = [
       {
-        name: "Prix à la nuitée",
+        name: "nightPrice",
         quantity: nbNights || 0,
-        unitPrice: nightPrice || 0,
-        totalPrice: nbNights * nightPrice || 0,
+        unitPrice: nightPrice ?? 0,
+        totalPrice: Math.max(round((nightPrice ?? 0) * nbNights), 0) || 0,
       },
       {
-        name: "Taxe de séjour",
+        name: "stayTaxes",
         quantity: 1,
         unitPrice: taxes,
         totalPrice: taxes,
       },
       {
-        name: "Frais de ménage",
+        name: "cleaningFees",
         quantity: 1,
-        unitPrice: cleaningFees,
-        totalPrice: cleaningFees,
+        unitPrice: cleaningFees ?? 0,
+        totalPrice: cleaningFees ?? 0,
       },
     ];
 
     const invoice: Invoice = {
+      ...rest,
       stay,
       client,
-      lineItems,
+      lineItems: nextLineItems,
+      totalPrice: nextLineItems.reduce(
+        (curr, acc) => curr + (acc.totalPrice ?? 0),
+        0
+      ),
     };
 
     return invoice;
@@ -75,43 +81,5 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
     const totalTaxes = round(unitTaxes * nbNights * nbTravelers);
 
     return isNaN(totalTaxes) ? 0 : totalTaxes;
-  }
-
-  private calculateNightlyPrice(
-    nbTravelers: number,
-    nbNights: number,
-    totalPriceWanted: number,
-    cleaningFees: number
-  ) {
-    let lowEstimate = 0;
-    let highEstimate = totalPriceWanted;
-    let estimatedNightlyRate = 0;
-    let difference = totalPriceWanted;
-    let taxes = 0;
-    let nbIteration = 0;
-
-    while (difference > 0.01 && nbIteration < 1000) {
-      estimatedNightlyRate = (lowEstimate + highEstimate) / 2;
-      taxes = this.calculateTaxes(estimatedNightlyRate, nbNights, nbTravelers);
-
-      const totalPriceExcludingTaxes = round(
-        estimatedNightlyRate * nbNights + taxes
-      );
-
-      difference = Math.abs(totalPriceWanted - totalPriceExcludingTaxes);
-
-      if (totalPriceExcludingTaxes < totalPriceWanted) {
-        lowEstimate = estimatedNightlyRate;
-      } else {
-        highEstimate = estimatedNightlyRate;
-      }
-      nbIteration++;
-    }
-
-    const price = round(
-      (estimatedNightlyRate * nbNights - cleaningFees) / nbNights
-    );
-
-    return Math.max(isNaN(price) ? 0 : price, 0);
   }
 }

@@ -1,0 +1,12 @@
+.notPrintable {
+  @media print {
+    display: none !important;
+  }
+}
+
+@media print {
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
