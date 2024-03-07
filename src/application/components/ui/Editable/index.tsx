@@ -37,7 +37,6 @@ export const Editable = <T,>({
   }, [value]);
 
   const formattedValue = isEditing ? internalValue : render(value);
-  console.log("formattedValue", formattedValue);
 
   const onSubmit = (nextValue: string) => {
     onChange(nextValue);
