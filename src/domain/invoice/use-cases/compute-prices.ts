@@ -5,7 +5,7 @@ import { IComputePrices } from "./interfaces/compute-prices";
 export class GenerateInvoice implements IComputePrices {
   invoiceAdapter: InvoiceAdapter;
 
-  constructor(invoiceAdapter: InvoiceAdapter) {
+  constructor({ invoiceAdapter }: { invoiceAdapter: InvoiceAdapter }) {
     this.invoiceAdapter = invoiceAdapter;
   }
 

@@ -34,7 +34,7 @@ export class InvoiceScreenViewModel {
 
   #computePrices: IComputePrices;
 
-  constructor(computePrices: IComputePrices) {
+  constructor({ computePrices }: { computePrices: IComputePrices }) {
     this.#computePrices = computePrices;
     this.#compute(this.invoice);
 

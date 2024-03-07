@@ -5,7 +5,7 @@ import { GenerateInvoice } from "domain/invoice/use-cases/compute-prices";
 import { InvoiceInMemoryAdapter } from "infrastructure/invoice/InMemory/invoice-adapter";
 
 export const container = createContainer({
-  injectionMode: InjectionMode.CLASSIC,
+  injectionMode: InjectionMode.PROXY,
   strict: true,
 });
 
