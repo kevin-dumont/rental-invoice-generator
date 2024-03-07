@@ -1,6 +1,6 @@
 import { Client } from "domain/invoice/entities/Client";
 import { Editable } from "../Editable";
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
 export type ClientAddressDisplayProps = {
@@ -23,7 +23,7 @@ export const ClientAddressDisplay = ({
   };
 
   return (
-    <div>
+    <Box fontSize={12}>
       <Text as="strong">
         <Editable<string>
           value={client.name}
@@ -45,6 +45,6 @@ export const ClientAddressDisplay = ({
           ))
         }
       />
-    </div>
+    </Box>
   );
 };

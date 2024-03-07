@@ -43,16 +43,16 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
         totalPrice: Math.max(trunc((nightPrice ?? 0) * nbNights), 0) || 0,
       },
       {
-        name: "stayTaxes",
-        quantity: 1,
-        unitPrice: taxes,
-        totalPrice: taxes,
-      },
-      {
         name: "cleaningFees",
         quantity: 1,
         unitPrice: cleaningFees ?? 0,
         totalPrice: cleaningFees ?? 0,
+      },
+      {
+        name: "stayTaxes",
+        quantity: 1,
+        unitPrice: taxes,
+        totalPrice: taxes,
       },
     ];
 
@@ -80,14 +80,10 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
       ((cleaningFees ?? 0) + (nightlyRateWithoutCleaning ?? 0) * nbNights) /
       nbNights;
 
-    console.log("computedNightPrice", computedNightPrice);
-
     const baseUnitTax = Math.min(
       (computedNightPrice / nbTravelers) * 0.05,
       4.3
     );
-
-    console.log("baseUnitTax", baseUnitTax);
 
     const unitTaxes = trunc(
       baseUnitTax +
@@ -95,8 +91,6 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
         trunc(baseUnitTax * GRAND_PARIS_COEFF) +
         trunc(baseUnitTax * ADDITIONAL_TAXES_COEFF)
     );
-
-    console.log("unitTaxes", unitTaxes);
 
     const totalTaxes = round(unitTaxes * nbNights * nbTravelers);
 
