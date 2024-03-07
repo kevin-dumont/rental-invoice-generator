@@ -3,7 +3,7 @@ import { InvoiceLineItem } from "./InvoiceLineItem";
 import { Stay } from "./Stay";
 
 export type Invoice = {
-  id?: string;
+  id: string;
   client: Client;
   stay: Stay;
   lineItems: InvoiceLineItem[];

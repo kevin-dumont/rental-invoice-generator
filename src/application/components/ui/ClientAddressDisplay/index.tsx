@@ -14,16 +14,23 @@ export const ClientAddressDisplay = ({
   onChange,
   disableEdit,
 }: ClientAddressDisplayProps) => {
+  const onNameChange = (name: string) => {
+    onChange?.({ ...client, name });
+  };
+
   const onAddressChange = (address: string) => {
-    onChange?.({
-      ...client,
-      address,
-    });
+    onChange?.({ ...client, address });
   };
 
   return (
     <div>
-      <Text as="strong">{client.name}</Text>
+      <Text as="strong">
+        <Editable<string>
+          value={client.name}
+          onChange={onNameChange}
+          disabled={disableEdit}
+        />
+      </Text>
       <Editable<string>
         value={client.address}
         onChange={onAddressChange}

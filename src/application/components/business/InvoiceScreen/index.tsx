@@ -68,8 +68,12 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
 
       <Card mb={10} className={style.card}>
         <CardHeader>
-          <Heading size="lg">
-            Facture {viewModel.invoice.id ? `N°${viewModel.invoice.id}` : ""}
+          <Heading size="lg" display="flex" alignItems="center">
+            Facture N°
+            <Editable<string>
+              value={viewModel.invoice.id}
+              onChange={viewModel.onIdChange}
+            />
           </Heading>
           <Heading size="md" color="gray" fontWeight="xs">
             (prestation de service)

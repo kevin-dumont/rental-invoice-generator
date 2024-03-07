@@ -99,11 +99,14 @@ export class InvoiceScreenViewModel {
 
   onClientChange = (client: Client) => {
     this.invoice.client = client;
-    this.#compute(this.invoice);
   };
 
   onCleaningFeesChange = (price: number) => {
     this.#changeLineItem("cleaningFees", price);
+  };
+
+  onIdChange = (id: string) => {
+    this.invoice.id = id;
   };
 
   get formattedIssueDate() {

@@ -3,8 +3,14 @@ import { Invoice } from "domain/invoice/entities/Invoice";
 import { InvoiceLineItem } from "domain/invoice/entities/InvoiceLineItem";
 import { getDayDiffBetweenTwoDates } from "shared/utils/dates/getDayDiffBetweenTwoDates";
 import { round } from "shared/utils/numbers/round";
+import { trunc } from "shared/utils/numbers/trunc";
 
-const ESSONNE_COEFF = 0.15;
+/* Tarif taxe de séjour = 1,43€ 
++ 10% de 1,43€ (taxe additionnelle départementale) 
++ 15% de 1,43€ (taxe additionnelle régionale) 
++ 200% de 1,43€ (taxe additionnelle régionale) */
+
+const ESSONNE_COEFF = 0.1;
 const GRAND_PARIS_COEFF = 0.15;
 const ADDITIONAL_TAXES_COEFF = 2;
 
@@ -22,13 +28,11 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
       (item) => item.name === "cleaningFees"
     )?.unitPrice;
 
-    const computedNightPrice =
-      ((cleaningFees ?? 0) + (nightPrice ?? 0) * nbNights) / nbNights;
-
     const taxes = this.calculateTaxes(
       stay.nbAdults,
       nbNights,
-      computedNightPrice
+      nightPrice,
+      cleaningFees
     );
 
     const nextLineItems: InvoiceLineItem[] = [
@@ -36,7 +40,7 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
         name: "nightPrice",
         quantity: nbNights || 0,
         unitPrice: nightPrice ?? 0,
-        totalPrice: Math.max(round((nightPrice ?? 0) * nbNights), 0) || 0,
+        totalPrice: Math.max(trunc((nightPrice ?? 0) * nbNights), 0) || 0,
       },
       {
         name: "stayTaxes",
@@ -69,14 +73,30 @@ export class InvoiceInMemoryAdapter implements InvoiceAdapter {
   private calculateTaxes(
     nbTravelers: number,
     nbNights: number,
-    nightlyRate: number
+    nightlyRateWithoutCleaning?: number,
+    cleaningFees?: number
   ) {
-    const baseUnitTax = Math.min((nightlyRate / nbTravelers) * 0.05, 4.3);
-    const unitTaxes =
+    const computedNightPrice =
+      ((cleaningFees ?? 0) + (nightlyRateWithoutCleaning ?? 0) * nbNights) /
+      nbNights;
+
+    console.log("computedNightPrice", computedNightPrice);
+
+    const baseUnitTax = Math.min(
+      (computedNightPrice / nbTravelers) * 0.05,
+      4.3
+    );
+
+    console.log("baseUnitTax", baseUnitTax);
+
+    const unitTaxes = trunc(
       baseUnitTax +
-      baseUnitTax * ESSONNE_COEFF +
-      baseUnitTax * GRAND_PARIS_COEFF +
-      baseUnitTax * ADDITIONAL_TAXES_COEFF;
+        trunc(baseUnitTax * ESSONNE_COEFF) +
+        trunc(baseUnitTax * GRAND_PARIS_COEFF) +
+        trunc(baseUnitTax * ADDITIONAL_TAXES_COEFF)
+    );
+
+    console.log("unitTaxes", unitTaxes);
 
     const totalTaxes = round(unitTaxes * nbNights * nbTravelers);
 
