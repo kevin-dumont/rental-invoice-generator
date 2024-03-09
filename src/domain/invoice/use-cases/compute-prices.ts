@@ -1,15 +1,15 @@
-import { InvoiceAdapter } from "../adapters/invoice-adapter";
+import { InvoiceRepository } from "../repository/invoice-adapter";
 import { Invoice } from "../entities/Invoice";
 import { IComputePrices } from "./interfaces/compute-prices";
 
-export class GenerateInvoice implements IComputePrices {
-  invoiceAdapter: InvoiceAdapter;
+export class ComputePrices implements IComputePrices {
+  invoiceRepository: InvoiceRepository;
 
-  constructor({ invoiceAdapter }: { invoiceAdapter: InvoiceAdapter }) {
-    this.invoiceAdapter = invoiceAdapter;
+  constructor({ invoiceRepository }: { invoiceRepository: InvoiceRepository }) {
+    this.invoiceRepository = invoiceRepository;
   }
 
   async execute(invoice: Invoice) {
-    return await this.invoiceAdapter.computePrices(invoice);
+    return await this.invoiceRepository.computePrices(invoice);
   }
 }

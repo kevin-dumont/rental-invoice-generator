@@ -1,4 +1,4 @@
-import { InvoiceAdapter } from "domain/invoice/adapters/invoice-adapter";
+import { InvoiceRepository } from "domain/invoice/repository/invoice-adapter";
 import { Invoice } from "domain/invoice/entities/Invoice";
 import { InvoiceLineItem } from "domain/invoice/entities/InvoiceLineItem";
 import { getDayDiffBetweenTwoDates } from "shared/utils/dates/getDayDiffBetweenTwoDates";
@@ -14,7 +14,7 @@ const ESSONNE_COEFF = 0.1;
 const GRAND_PARIS_COEFF = 0.15;
 const ADDITIONAL_TAXES_COEFF = 2;
 
-export class InvoiceInMemoryAdapter implements InvoiceAdapter {
+export class InvoiceInMemoryRepository implements InvoiceRepository {
   async computePrices({ stay, client, lineItems, ...rest }: Invoice) {
     const { startDate, endDate } = stay;
 
