@@ -20,11 +20,9 @@ export class LoginScreenViewModel {
 
   onUsernameChange = (e: GenericInputEvent) => {
     this.username = e.currentTarget.value;
-    console.log("e", e.currentTarget.value);
   };
 
   onPasswordChange = (e: GenericInputEvent) => {
     this.password = e.currentTarget.value;
-    console.log("e", e.currentTarget.value);
   };
 }
