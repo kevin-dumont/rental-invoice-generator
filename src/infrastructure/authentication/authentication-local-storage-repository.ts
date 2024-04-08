@@ -8,13 +8,6 @@ export class AuthenticationLocalStorageRepository
   implements AuthenticationRepository
 {
   async login(username: string, password: string): Promise<AuthResult> {
-    console.table({
-      1: import.meta.env.VITE_AUTH_USERNAME,
-      2: import.meta.env.VITE_AUTH_PASSWORD,
-      username,
-      password,
-    });
-
     if (
       username === import.meta.env.VITE_AUTH_USERNAME &&
       password === import.meta.env.VITE_AUTH_PASSWORD
@@ -22,8 +15,6 @@ export class AuthenticationLocalStorageRepository
       const autState: AuthState = { isLoggedIn: true };
 
       localStorage.setItem(localStorageKey, JSON.stringify(autState));
-
-      console.log("connected");
 
       return { state: "success" };
     }

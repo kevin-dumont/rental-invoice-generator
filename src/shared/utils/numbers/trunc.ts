@@ -1,3 +1,3 @@
 export const trunc = (amount: number) => {
-  return Math.trunc(amount * 100) / 100;
+  return Math.round((Math.trunc(amount * 100) / 100) * 100) / 100;
 };

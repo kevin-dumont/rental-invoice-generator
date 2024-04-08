@@ -70,27 +70,28 @@ export class InvoiceInMemoryRepository implements InvoiceRepository {
     return invoice;
   }
 
-  private calculateTaxes(
+  calculateTaxes(
     nbTravelers: number,
     nbNights: number,
     nightlyRateWithoutCleaning?: number,
     cleaningFees?: number
   ) {
-    const computedNightPrice =
+    const computedNightPrice = trunc(
       ((cleaningFees ?? 0) + (nightlyRateWithoutCleaning ?? 0) * nbNights) /
-      nbNights;
-
-    const baseUnitTax = Math.min(
-      (computedNightPrice / nbTravelers) * 0.05,
-      4.3
+        nbNights
     );
 
-    const unitTaxes = trunc(
+    const baseUnitTax = round(
+      Math.min((computedNightPrice / nbTravelers) * 0.05, 4.3)
+    );
+
+    const unitTaxes =
       baseUnitTax +
-        trunc(baseUnitTax * ESSONNE_COEFF) +
-        trunc(baseUnitTax * GRAND_PARIS_COEFF) +
-        trunc(baseUnitTax * ADDITIONAL_TAXES_COEFF)
-    );
+      round(
+        round(baseUnitTax * ESSONNE_COEFF) +
+          round(baseUnitTax * GRAND_PARIS_COEFF) +
+          round(baseUnitTax * ADDITIONAL_TAXES_COEFF)
+      );
 
     const totalTaxes = round(unitTaxes * nbNights * nbTravelers);
 

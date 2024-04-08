@@ -19,7 +19,7 @@ export class InvoiceScreenViewModel {
       nbAdults: 3,
       nbChildren: 0,
       startDate: new Date(),
-      endDate: add(new Date(), { days: 2 }),
+      endDate: add(new Date(), { days: 4 }),
       location: "",
     },
     client: {
@@ -27,7 +27,7 @@ export class InvoiceScreenViewModel {
       address: DEFAULT_EXAMPLE_ADDRESS,
     },
     lineItems: [
-      { name: "nightPrice", unitPrice: 0 },
+      { name: "nightPrice", unitPrice: 86.98 },
       { name: "cleaningFees", unitPrice: 65 },
       { name: "stayTaxes", unitPrice: 0 },
     ],
