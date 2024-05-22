@@ -8,5 +8,10 @@
   .card {
     border: none !important;
     box-shadow: none !important;
+    border-radius: none;
   }
+}
+
+.breakBefore {
+  page-break-before: always;
 }

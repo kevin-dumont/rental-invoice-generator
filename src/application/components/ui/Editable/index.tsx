@@ -1,3 +1,4 @@
+import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Editable as _Editable,
   EditableInput,
@@ -5,9 +6,19 @@ import {
   EditablePreview,
   EditableProps,
   EditableTextarea,
+  Select,
   useBoolean,
+  IconButton,
+  useEditableControls,
+  ButtonGroup,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import {
+  ComponentProps,
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 
 interface Editable<T>
   extends Omit<
@@ -18,7 +29,8 @@ interface Editable<T>
   onChange: (value: string) => void;
   disabled?: boolean;
   render?: (value: T) => ReactNode | string;
-  type?: EditableInputProps["type"] | "textarea";
+  type?: EditableInputProps["type"] | "textarea" | "select";
+  options?: { label: string; value: string }[]; // Options for the select dropdown
 }
 
 export const Editable = <T,>({
@@ -27,6 +39,7 @@ export const Editable = <T,>({
   render = (v) => `${v}`,
   disabled,
   type,
+  options = [],
   ...rest
 }: Editable<T>) => {
   const [isEditing, setIsEditing] = useBoolean();
@@ -38,10 +51,10 @@ export const Editable = <T,>({
 
   const formattedValue = isEditing ? internalValue : render(value);
 
-  const onSubmit = (nextValue: string) => {
+  const onSubmit = ((nextValue: string) => {
     onChange(nextValue);
     setIsEditing.off();
-  };
+  }) as ComponentProps<typeof _Editable>["onSubmit"];
 
   return (
     <_Editable
@@ -55,7 +68,47 @@ export const Editable = <T,>({
     >
       <EditablePreview />
       {type === "textarea" && <EditableTextarea />}
-      {type !== "textarea" && <EditableInput type={type} />}
+      {type === "select" && (
+        <EditableInput as={EditableSelect} options={options} />
+      )}
+      {type !== "textarea" && type !== "select" && (
+        <EditableInput type={type} />
+      )}
     </_Editable>
   );
+};
+
+const EditableSelect = ({
+  value,
+  onChange,
+  options = [],
+}: {
+  value: string;
+  onChange: (value: SyntheticEvent) => void;
+  options?: { label: string; value: string }[];
+}) => {
+  const { getSubmitButtonProps, getCancelButtonProps, isEditing } =
+    useEditableControls();
+
+  return isEditing ? (
+    <ButtonGroup size="sm">
+      <Select value={value} onChange={onChange} size="sm">
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
+      <IconButton
+        aria-label="Save"
+        icon={<EditIcon />}
+        {...getSubmitButtonProps()}
+      />
+      <IconButton
+        aria-label="Cancel"
+        icon={<CloseIcon />}
+        {...getCancelButtonProps()}
+      />
+    </ButtonGroup>
+  ) : null;
 };

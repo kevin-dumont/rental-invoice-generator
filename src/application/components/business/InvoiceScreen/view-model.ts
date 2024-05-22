@@ -15,6 +15,7 @@ const DEFAULT_EXAMPLE_ADDRESS = `10 rue des abricotiers
 export class InvoiceScreenViewModel {
   invoice: Invoice = {
     id: format(new Date(), "yyyy/MM/1"),
+    type: "quote",
     stay: {
       nbAdults: 3,
       nbChildren: 0,
@@ -107,6 +108,10 @@ export class InvoiceScreenViewModel {
 
   onIdChange = (id: string) => {
     this.invoice.id = id;
+  };
+
+  onTypeChange = (type: string) => {
+    this.invoice.type = type as "invoice" | "quote";
   };
 
   get formattedIssueDate() {

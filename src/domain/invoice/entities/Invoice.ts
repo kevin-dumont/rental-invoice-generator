@@ -8,4 +8,5 @@ export type Invoice = {
   stay: Stay;
   lineItems: InvoiceLineItem[];
   totalPrice?: number;
+  type: "invoice" | "quote";
 };

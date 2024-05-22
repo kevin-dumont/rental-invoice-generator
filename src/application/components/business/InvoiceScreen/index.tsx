@@ -27,22 +27,10 @@ import { formatPrice } from "shared/utils/numbers/formatPrice";
 import { InvoiceScreenViewModel } from "./view-model";
 
 import style from "./style.module.scss";
-import { Client } from "domain/invoice/entities/Client";
 import { Header } from "application/components/ui/Header";
-
-const DEFAULT_ADDRESS = `55 avenue de Juvisy
-91390 Morsang-sur-Orge`;
-
-const HOST_CLIENT: Client = {
-  name: "DUMONT KEVIN ET LUZIO GLORIA",
-  address: DEFAULT_ADDRESS,
-};
-
-const NAME_MAPPER = {
-  nightPrice: "Nuitée",
-  stayTaxes: "Taxes de séjour",
-  cleaningFees: "Frais de ménage",
-};
+import Contract from "./components/Contract";
+import { HOST_CLIENT, NAME_MAPPER } from "./constants";
+import { Signatures } from "./components/Signatures";
 
 export interface InvoiceScreenProps {
   viewModel: InvoiceScreenViewModel;
@@ -56,7 +44,7 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
   } as const;
 
   return (
-    <>
+    <Box bg="gray.50" pb={10}>
       <Header className={style.notPrintable} />
       <Container maxW="container.lg">
         <Flex justify="center" mt={5}>
@@ -70,10 +58,22 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
           </Button>
         </Flex>
 
-        <Card mb={10} className={style.card}>
+        <Card className={style.card} boxShadow="xl">
           <CardHeader>
             <Heading size="md" display="flex" alignItems="center">
-              Facture N°
+              <Box>
+                <Editable<"invoice" | "quote">
+                  value={viewModel.invoice.type}
+                  onChange={viewModel.onTypeChange}
+                  type="select"
+                  options={[
+                    { label: "Facture", value: "invoice" },
+                    { label: "Devis", value: "quote" },
+                  ]}
+                  render={(v) => (v === "invoice" ? "Facture" : "Devis")}
+                />
+              </Box>
+              &nbsp;N°
               <Editable<string>
                 value={viewModel.invoice.id}
                 onChange={viewModel.onIdChange}
@@ -84,7 +84,7 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
             </Heading>
           </CardHeader>
           <CardBody>
-            <Flex justify="space-between" mb={10}>
+            <Flex justify="space-between">
               <div>
                 <ClientAddressDisplay client={HOST_CLIENT} />
                 <Text fontSize={12}>Tél: 0762064374</Text>
@@ -247,10 +247,22 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
                 BOUS FRPP XXX
               </Text>
             </Flex>
+
+            {viewModel.invoice.type === "quote" && <Signatures />}
           </CardBody>
         </Card>
+
+        {viewModel.invoice.type === "quote" && (
+          <Card
+            className={`${style.card} ${style.breakBefore}`}
+            boxShadow="xl"
+            mt={10}
+          >
+            <Contract invoice={viewModel.invoice} />
+          </Card>
+        )}
       </Container>
-    </>
+    </Box>
   );
 };
 
