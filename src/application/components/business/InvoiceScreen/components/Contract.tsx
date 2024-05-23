@@ -1,11 +1,11 @@
 import {
   Box,
   CardBody,
-  CardHeader,
   Flex,
   List,
   ListIcon,
   ListItem,
+  OrderedList,
   Text,
 } from "@chakra-ui/react";
 import { ComponentProps, PropsWithChildren, ReactNode } from "react";
@@ -66,19 +66,17 @@ function Contract({ invoice }: { invoice: Invoice }) {
 
   return (
     <>
-      <CardHeader>
+      <CardBody>
         <Text fontSize="2xl" fontWeight="bold" my={4}>
           Contrat de location saisonnière
         </Text>
-      </CardHeader>
-      <CardBody>
         <Text fontSize="xl" fontWeight="bold" my={4}>
           I. Désignation des parties
         </Text>
         <P p={2}>
           Le présent contrat est conclu entre les parties ci-après désignées.
         </P>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Le bailleur
         </Text>
         <Box p={2} fontSize="sm">
@@ -122,7 +120,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
             </HoleText>
           </Box>
         </Box>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Le locataire
         </Text>
         <P p={2}>
@@ -171,7 +169,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
           28 décembre 1976 modifié et par les dispositions générales du Code
           civil.
         </P>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Nature du logement
         </Text>
         <Box fontSize="sm" p={2}>
@@ -274,7 +272,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
             contrat.
           </P>
         </Box>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Destination du logement
         </Text>
         <Box p={2}>
@@ -283,9 +281,9 @@ function Contract({ invoice }: { invoice: Invoice }) {
             les entretenir et d’en faire un usage paisible sans troubler la
             tranquillité du voisinage. Il reconnaît l’interdiction d’utiliser
             les locaux à un usage professionnel sauf accord préalable avec le
-            bailleur, et l’interdiction de les sous-louer à un tiers. Les fêtes
-            sont strictement interdites.
+            bailleur, et l’interdiction de les sous-louer à un tiers.
           </P>
+
           <P>
             Les installations et équipements du logement sont réputés en état de
             marche à la date et à l’heure d’entrée dans les lieux. Une
@@ -300,7 +298,44 @@ function Contract({ invoice }: { invoice: Invoice }) {
             pas non plus tolérés sauf accord préalable avec le bailleur.
           </P>
         </Box>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
+          Règlement intérieur
+        </Text>
+        <OrderedList p={3} fontSize="sm">
+          <ListItem>Fêtes strictement interdites</ListItem>
+          <ListItem>Interdit de fumer</ListItem>
+          <ListItem>Pas d’invités, sauf accord préalable</ListItem>
+          <ListItem>5 voyageurs maximum, sauf accord préalable</ListItem>
+          <ListItem>Respecter les heures calmes (21h-9h)</ListItem>
+          <ListItem>
+            Les voyageurs prennent connaissance de la procédure d'arrivée avant
+            le check in
+          </ListItem>
+          <ListItem>
+            Départ 10h00, sauf accord préalable (demander au plus tard la veille
+            avant 16h00)
+          </ListItem>
+          <ListItem>Faire la vaisselle et la ranger avant le départ</ListItem>
+          <ListItem>
+            Les shootings photo, tournages etc... sont interdits sans accord
+            préalable
+          </ListItem>
+          <ListItem>Ne rien jeter dans les WC</ListItem>
+          <ListItem>
+            Ne pas abuser de l'électricité (ex : pas de minage de
+            crypto-monnaies, ne pas chauffer trop, éteindre les lumières…)
+          </ListItem>
+          <ListItem>
+            Merci de nous prévenir en avance si vous souhaitez des draps pour le
+            canapé lit
+          </ListItem>
+        </OrderedList>
+        <P>
+          En cas de non respect des règles et selon la gravité, la réservation
+          pourra être annulée sur place et/ou le dépôt de garantie pourra être
+          prélevé, partiellement ou intégralement.
+        </P>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Locaux et équipements à usage privatif
         </Text>
         <P p={2}>
@@ -327,7 +362,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
             </ListItem>
           </List>
         </P>
-        <Text fontSize="lg" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Locaux, services et équipements à usage commun
         </Text>
         <Box fontSize="sm" p={2}>
@@ -418,7 +453,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
           </P>
           et se décline comme suit.
         </P>
-        <Text fontSize="xl" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Loyer
         </Text>
         <P>
@@ -432,7 +467,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
           </P>
           pour la période de location.
         </P>
-        <Text fontSize="xl" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Charges
         </Text>
         <P>
@@ -459,7 +494,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
             Avant la réservation, de même que le reste du loyer
           </TextItem>
         </Box>
-        <Text fontSize="xl" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Taxe de séjour
         </Text>
         <P>
@@ -473,7 +508,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
           </P>
           .
         </P>
-        <Text fontSize="xl" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Modalités de paiement
         </Text>
         <P>
@@ -497,10 +532,9 @@ function Contract({ invoice }: { invoice: Invoice }) {
             lieux
           </ListItem>
         </List>
-        <Text fontSize="xl" fontWeight="bold" my={4}>
+        <Text fontSize="md" fontWeight="bold" my={4}>
           Dépôt de garantie
         </Text>
-
         <P>
           <YesNo
             label="Le présent contrat de location saisonnière donne lieu au versement
@@ -527,7 +561,6 @@ function Contract({ invoice }: { invoice: Invoice }) {
             </ListItem>
           </List>
         </P>
-
         <Text fontSize="xl" fontWeight="bold" my={4}>
           VI. Conditions d’annulation
         </Text>
@@ -555,9 +588,7 @@ function Contract({ invoice }: { invoice: Invoice }) {
         <Text fontSize="xl" fontWeight="bold" my={4}>
           VII. Assurance
         </Text>
-
         <P>Cocher la mention utile :</P>
-
         <List fontSize="sm" p={3}>
           <ListItem>
             <ListIcon as={MdCheckBoxOutlineBlank} />
@@ -573,13 +604,11 @@ function Contract({ invoice }: { invoice: Invoice }) {
             relative aux risques locatifs (dégât des eaux et incendie).
           </ListItem>
         </List>
-
         <P>
           Dans les deux cas, le locataire s’engage à signaler au bailleur et
           sous 24 heures maximum tout sinistre survenu dans le logement ou ses
           dépendances.
         </P>
-
         <Text fontSize="xl" fontWeight="bold" my={4}>
           VII. Clause de solidarité
         </Text>
@@ -588,7 +617,6 @@ function Contract({ invoice }: { invoice: Invoice }) {
           contrat sont réputés être solidaires et indivisibles dans l’exécution
           de leurs obligations.
         </P>
-
         <Signatures />
       </CardBody>
     </>
