@@ -22,6 +22,10 @@ export const ClientAddressDisplay = ({
     onChange?.({ ...client, address });
   };
 
+  const onPhoneChange = (phone: string) => {
+    onChange?.({ ...client, phone });
+  };
+
   return (
     <Box fontSize={12}>
       <Text as="strong">
@@ -45,6 +49,16 @@ export const ClientAddressDisplay = ({
           ))
         }
       />
+      <Text display="flex">
+        <Text as="strong" alignContent="center" mr={1}>
+          Tél:
+        </Text>
+        <Editable<string>
+          value={client.phone ?? ""}
+          onChange={onPhoneChange}
+          disabled={disableEdit}
+        />
+      </Text>
     </Box>
   );
 };

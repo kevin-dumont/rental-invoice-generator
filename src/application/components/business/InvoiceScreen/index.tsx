@@ -85,14 +85,13 @@ const InvoiceScreen = ({ viewModel }: InvoiceScreenProps) => {
           </CardHeader>
           <CardBody>
             <Flex justify="space-between">
-              <div>
+              <Box mb={4}>
                 <ClientAddressDisplay client={HOST_CLIENT} />
-                <Text fontSize={12}>Tél: 0762064374</Text>
                 <Text fontSize={12}>SIRET: 94971080000010</Text>
                 <Text fontSize={12}>
                   N° de TVA : Non-assujetti à la TVA (LMNP)
                 </Text>
-              </div>
+              </Box>
               <ClientAddressDisplay
                 client={viewModel.invoice.client}
                 onChange={viewModel.onClientChange}

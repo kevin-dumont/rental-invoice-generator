@@ -15,16 +15,6 @@ export function Signatures() {
         rounded="md"
       >
         Date et signature du bailleur
-        <Text
-          color="gray.600"
-          fontStyle="italic"
-          fontSize={11}
-          fontWeight="normal"
-          display="inline-block"
-          px={1}
-        >
-          (précédé de la mention "lu et approuvé")
-        </Text>
       </Text>
       <Text
         flex={1}
@@ -38,16 +28,6 @@ export function Signatures() {
         rounded="md"
       >
         Date et signature du locataire
-        <Text
-          color="gray.600"
-          fontStyle="italic"
-          fontSize={11}
-          fontWeight="normal"
-          display="inline-block"
-          px={1}
-        >
-          (précédé de la mention "lu et approuvé")
-        </Text>
       </Text>
     </Flex>
   );

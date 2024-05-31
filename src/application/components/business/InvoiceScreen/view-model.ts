@@ -26,6 +26,7 @@ export class InvoiceScreenViewModel {
     client: {
       name: "Robert Dupont",
       address: DEFAULT_EXAMPLE_ADDRESS,
+      phone: "0745655445",
     },
     lineItems: [
       { name: "nightPrice", unitPrice: 86.98 },

@@ -14,6 +14,7 @@ import { HOST_CLIENT } from "../constants";
 import { Invoice } from "domain/invoice/entities/Invoice";
 import { dateDisplayFormat } from "shared/utils/dates/displayFormat";
 import { Signatures } from "./Signatures";
+import { formatPrice } from "shared/utils/numbers/formatPrice";
 
 function HoleText({ children }: PropsWithChildren) {
   return (
@@ -459,10 +460,10 @@ function Contract({ invoice }: { invoice: Invoice }) {
         <P>
           Le loyer hors charges et hors taxes s’établit à
           <P display="inline-block" as="strong">
-            {
+            {formatPrice(
               invoice.lineItems.find((line) => line.name === "nightPrice")
-                ?.totalPrice
-            }
+                ?.totalPrice ?? 0
+            )}
             €
           </P>
           pour la période de location.
@@ -500,10 +501,10 @@ function Contract({ invoice }: { invoice: Invoice }) {
         <P>
           La taxe de séjour pour la période de location considérée s’élève à
           <P display="inline-block" as="strong">
-            {
+            {formatPrice(
               invoice.lineItems.find((line) => line.name === "stayTaxes")
-                ?.totalPrice
-            }
+                ?.totalPrice ?? 0
+            )}
             €
           </P>
           .
