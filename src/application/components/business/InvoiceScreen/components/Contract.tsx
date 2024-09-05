@@ -464,7 +464,6 @@ function Contract({ invoice }: { invoice: Invoice }) {
               invoice.lineItems.find((line) => line.name === "nightPrice")
                 ?.totalPrice ?? 0
             )}
-            €
           </P>
           pour la période de location.
         </P>
@@ -505,7 +504,6 @@ function Contract({ invoice }: { invoice: Invoice }) {
               invoice.lineItems.find((line) => line.name === "stayTaxes")
                 ?.totalPrice ?? 0
             )}
-            €
           </P>
           .
         </P>

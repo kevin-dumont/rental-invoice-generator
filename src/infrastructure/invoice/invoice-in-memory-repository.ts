@@ -29,6 +29,7 @@ export class InvoiceInMemoryRepository implements InvoiceRepository {
     )?.unitPrice;
 
     const taxes = this.calculateTaxes(
+      stay.nbAdults + stay.nbChildren,
       stay.nbAdults,
       nbNights,
       nightPrice,
@@ -72,6 +73,7 @@ export class InvoiceInMemoryRepository implements InvoiceRepository {
 
   calculateTaxes(
     nbTravelers: number,
+    nbEffectiveTravelers: number,
     nbNights: number,
     nightlyRateWithoutCleaning?: number,
     cleaningFees?: number
@@ -93,7 +95,7 @@ export class InvoiceInMemoryRepository implements InvoiceRepository {
           round(baseUnitTax * ADDITIONAL_TAXES_COEFF)
       );
 
-    const totalTaxes = round(unitTaxes * nbNights * nbTravelers);
+    const totalTaxes = round(unitTaxes * nbNights * nbEffectiveTravelers);
 
     return isNaN(totalTaxes) ? 0 : totalTaxes;
   }
